@@ -32,6 +32,12 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
     maxRating: 1520,
     rank: 'Specialist',
     totalSolved: 480,
+    ratingHistory: [
+      { title: 'Div. 3 Round 820', rating: 1180, date: '2023-01' },
+      { title: 'Educational Round 145', rating: 1290, date: '2023-05' },
+      { title: 'Div. 2 Round 890', rating: 1380, date: '2023-10' },
+      { title: 'Div. 2 Round 910', rating: 1450, date: '2024-03' },
+    ],
   };
 
   const leetcode = (stats || []).find((s) => s.platform === 'leetcode') || {
@@ -51,186 +57,229 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
   const hard = leetcode.hardSolved || 90;
   const totalLC = leetcode.totalSolved || easy + medium + hard;
 
+  // Rating History Sparkline Points calculation for Codeforces
+  const history = codeforces.ratingHistory && codeforces.ratingHistory.length > 0
+    ? codeforces.ratingHistory
+    : [
+        { rating: 1180 },
+        { rating: 1290 },
+        { rating: 1380 },
+        { rating: 1450 },
+      ];
+
+  const minRating = Math.min(...history.map((h: { rating: number }) => h.rating || 1000)) - 50;
+  const maxRating = Math.max(...history.map((h: { rating: number }) => h.rating || 1600)) + 50;
+  
+  const chartWidth = 400;
+  const chartHeight = 120;
+
+  const points = history.map((item: { rating: number }, idx: number) => {
+    const x = (idx / Math.max(1, history.length - 1)) * (chartWidth - 40) + 20;
+    const y = chartHeight - ((item.rating - minRating) / (maxRating - minRating)) * (chartHeight - 30) - 15;
+    return { x, y, rating: item.rating };
+  });
+
+  const pathD = points.length > 1
+    ? points.reduce((acc: string, curr: { x: number; y: number }, i: number) => {
+        return i === 0 ? `M ${curr.x} ${curr.y}` : `${acc} L ${curr.x} ${curr.y}`;
+      }, '')
+    : '';
+
   return (
-    <section id="coding-stats" className="py-20 relative overflow-hidden">
+    <section id="coding-stats" className="py-20 relative overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center mb-14"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Trophy className="w-3.5 h-3.5" />
-            <span>Problem Solving & Algorithms</span>
+        {/* Terminal Header Bar */}
+        <div className="terminal-frame mb-8">
+          <div className="terminal-titlebar">
+            <div className="terminal-dot bg-rose-500/80" />
+            <div className="terminal-dot bg-amber-500/80" />
+            <div className="terminal-dot bg-emerald-500/80" />
+            <span className="text-[11px] font-mono text-gray-400 ml-2">
+              bash - competitive-programming-telemetry --user=MISTYCAN
+            </span>
           </div>
-          <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-white">
-            Competitive <span className="gradient-text">Programming</span>
-          </h2>
-          <p className="mt-3 text-gray-400 max-w-xl text-base">
-            Live tracked metrics and rating history from Codeforces and LeetCode.
-          </p>
-        </motion.div>
+          <div className="p-4 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-[#0a0c10]">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
+                <Trophy className="w-3.5 h-3.5" />
+                <span>ACM-ICPC & ALGORITHMIC PROFILE</span>
+              </div>
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
+                Competitive Programming Metrics
+              </h2>
+            </div>
+            <div className="flex items-center gap-3">
+              <a
+                href={`https://codeforces.com/profile/${codeforces.handle}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ghost-btn py-1.5 px-3 text-xs"
+              >
+                Codeforces @{codeforces.handle} <ExternalLink className="w-3 h-3 ml-1" />
+              </a>
+              <a
+                href={`https://leetcode.com/u/${leetcode.handle}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ghost-btn py-1.5 px-3 text-xs"
+              >
+                LeetCode @{leetcode.handle} <ExternalLink className="w-3 h-3 ml-1" />
+              </a>
+            </div>
+          </div>
+        </div>
 
         {/* Platforms Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Codeforces Card */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="glass-card p-8 flex flex-col justify-between relative overflow-hidden group"
-          >
+          {/* Codeforces Terminal Card with Rating Sparkline Chart (7 cols) */}
+          <div className="lg:col-span-7 terminal-frame p-6 flex flex-col justify-between">
             <div>
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-6 mb-6">
+              <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-[0_0_20px_rgba(56,189,248,0.2)]">
-                    <Code className="w-6 h-6" />
+                  <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                    <Code className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold uppercase text-sky-400 tracking-wider">
-                      Codeforces
-                    </span>
-                    <h3 className="font-display text-2xl font-bold text-white flex items-center gap-2">
-                      @{codeforces.handle}
-                    </h3>
+                    <h3 className="font-display text-lg font-bold text-white">Codeforces Profile</h3>
+                    <span className="text-xs font-mono text-sky-400">Handle: {codeforces.handle}</span>
                   </div>
                 </div>
-
-                <a
-                  href={`https://codeforces.com/profile/${codeforces.handle}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors flex items-center gap-1.5 text-xs font-semibold"
-                >
-                  <span>Profile</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                <div className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-300">
+                  {codeforces.rank || 'Specialist'}
+                </div>
               </div>
 
-              {/* Stats Highlights */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col">
-                  <span className="text-xs text-gray-400 font-medium">Current Rating</span>
-                  <span className="text-2xl font-display font-extrabold text-cyan-300 mt-1">
+              {/* Rating Stats Numbers */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[10px] font-mono text-gray-400 uppercase">Current Rating</span>
+                  <div className="text-xl font-mono font-bold text-cyan-300 mt-0.5">
                     {codeforces.rating || 1450}
-                  </span>
+                  </div>
                 </div>
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col">
-                  <span className="text-xs text-gray-400 font-medium">Max Rating</span>
-                  <span className="text-2xl font-display font-extrabold text-violet-300 mt-1">
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[10px] font-mono text-gray-400 uppercase">Max Rating</span>
+                  <div className="text-xl font-mono font-bold text-violet-300 mt-0.5">
                     {codeforces.maxRating || 1520}
-                  </span>
+                  </div>
                 </div>
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col col-span-2 sm:col-span-1">
-                  <span className="text-xs text-gray-400 font-medium">Rank Title</span>
-                  <span className="text-base font-display font-bold text-pink-400 mt-1 flex items-center gap-1">
-                    <Award className="w-4 h-4" />
-                    {codeforces.rank || 'Specialist'}
-                  </span>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[10px] font-mono text-gray-400 uppercase">Problems Solved</span>
+                  <div className="text-xl font-mono font-bold text-pink-400 mt-0.5">
+                    {codeforces.totalSolved || 480}+
+                  </div>
                 </div>
               </div>
 
-              {/* Rating History Log */}
-              {codeforces.ratingHistory && codeforces.ratingHistory.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-white/10">
-                  <span className="text-xs font-semibold uppercase text-gray-400 tracking-wider mb-3 block">
-                    Recent Contest Highlights
-                  </span>
-                  <div className="space-y-2">
-                    {codeforces.ratingHistory.slice(-3).map((item: { title?: string; date?: string; rating?: number }, idx: number) => (
-                      <div
-                        key={idx}
-                        className="flex items-center justify-between text-xs py-1.5 px-3 rounded-lg bg-white/[0.02] border border-white/5"
-                      >
-                        <span className="text-gray-300 font-medium truncate max-w-[200px]">
-                          {item.title}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-gray-500 font-mono">{item.date}</span>
-                          <span className="font-mono font-bold text-cyan-400">{item.rating}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+              {/* Contest Rating Sparkline Chart */}
+              <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                <div className="flex items-center justify-between text-xs font-mono text-gray-400 mb-2">
+                  <span>Rating Progression Chart</span>
+                  <span className="text-emerald-400">Peak: {codeforces.maxRating || 1520}</span>
                 </div>
-              )}
-            </div>
-          </motion.div>
 
-          {/* LeetCode Card */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="glass-card p-8 flex flex-col justify-between relative overflow-hidden group"
-          >
+                <div className="w-full overflow-hidden">
+                  <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-28 overflow-visible">
+                    {/* Gradient Fill */}
+                    <defs>
+                      <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    {/* Grid lines */}
+                    <line x1="0" y1="20" x2={chartWidth} y2="20" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
+                    <line x1="0" y1="60" x2={chartWidth} y2="60" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
+                    <line x1="0" y1="100" x2={chartWidth} y2="100" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
+
+                    {/* Area under curve */}
+                    {pathD && (
+                      <path
+                        d={`${pathD} L ${points[points.length - 1].x} ${chartHeight} L ${points[0].x} ${chartHeight} Z`}
+                        fill="url(#chartGlow)"
+                      />
+                    )}
+
+                    {/* Polyline */}
+                    {pathD && (
+                      <path
+                        d={pathD}
+                        fill="none"
+                        stroke="#38bdf8"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    )}
+
+                    {/* Data Points */}
+                    {points.map((p: { x: number; y: number; rating: number }, idx: number) => (
+                      <g key={idx}>
+                        <circle cx={p.x} cy={p.y} r="4" fill="#38bdf8" stroke="#09090e" strokeWidth="2" />
+                        <text
+                          x={p.x}
+                          y={p.y - 8}
+                          textAnchor="middle"
+                          fill="#a5f3fc"
+                          fontSize="9"
+                          fontFamily="monospace"
+                        >
+                          {p.rating}
+                        </text>
+                      </g>
+                    ))}
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* LeetCode Terminal Card (5 cols) */}
+          <div className="lg:col-span-5 terminal-frame p-6 flex flex-col justify-between">
             <div>
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-6 mb-6">
+              <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
-                    <Terminal className="w-6 h-6" />
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <Terminal className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold uppercase text-amber-400 tracking-wider">
-                      LeetCode
-                    </span>
-                    <h3 className="font-display text-2xl font-bold text-white flex items-center gap-2">
-                      @{leetcode.handle}
-                    </h3>
+                    <h3 className="font-display text-lg font-bold text-white">LeetCode Profile</h3>
+                    <span className="text-xs font-mono text-amber-400">Handle: {leetcode.handle}</span>
                   </div>
                 </div>
-
-                <a
-                  href={`https://leetcode.com/u/${leetcode.handle}/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors flex items-center gap-1.5 text-xs font-semibold"
-                >
-                  <span>Profile</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                <div className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-mono text-amber-300">
+                  {leetcode.rank || 'Knight'}
+                </div>
               </div>
 
-              {/* Total Solved Overview */}
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-pink-500/10 to-transparent border border-amber-500/20 mb-6">
+              {/* Total Solved Header */}
+              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 mb-6 flex items-center justify-between">
                 <div>
-                  <span className="text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Total Solved Problems
-                  </span>
-                  <div className="text-3xl font-display font-extrabold text-white mt-0.5">
+                  <span className="text-[10px] font-mono text-gray-400 uppercase">Total Solved</span>
+                  <div className="text-3xl font-mono font-bold text-white mt-0.5">
                     {totalLC}
                   </div>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-300">
-                  <Sparkles className="w-5 h-5" />
+                <div className="text-right font-mono text-xs text-amber-400">
+                  Rating: {leetcode.rating || 1780}
                 </div>
               </div>
 
-              {/* Easy / Medium / Hard Progress Bars */}
+              {/* Problem Difficulty Breakdown */}
               <div className="space-y-4">
                 {/* Easy */}
                 <div>
-                  <div className="flex items-center justify-between text-xs mb-1.5">
-                    <span className="font-semibold text-emerald-400 flex items-center gap-1">
+                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                    <span className="text-emerald-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Easy
                     </span>
-                    <span className="font-mono text-gray-300">{easy} Solved</span>
+                    <span className="text-gray-300">{easy}</span>
                   </div>
-                  <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden border border-white/10">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${Math.min(100, (easy / totalLC) * 100 * 2.5)}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1 }}
+                  <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      style={{ width: `${Math.min(100, (easy / totalLC) * 100 * 2.5)}%` }}
                       className="h-full bg-emerald-400 rounded-full"
                     />
                   </div>
@@ -238,18 +287,15 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
 
                 {/* Medium */}
                 <div>
-                  <div className="flex items-center justify-between text-xs mb-1.5">
-                    <span className="font-semibold text-amber-400 flex items-center gap-1">
+                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                    <span className="text-amber-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Medium
                     </span>
-                    <span className="font-mono text-gray-300">{medium} Solved</span>
+                    <span className="text-gray-300">{medium}</span>
                   </div>
-                  <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden border border-white/10">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${Math.min(100, (medium / totalLC) * 100 * 2)}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.1 }}
+                  <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      style={{ width: `${Math.min(100, (medium / totalLC) * 100 * 2)}%` }}
                       className="h-full bg-amber-400 rounded-full"
                     />
                   </div>
@@ -257,18 +303,15 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
 
                 {/* Hard */}
                 <div>
-                  <div className="flex items-center justify-between text-xs mb-1.5">
-                    <span className="font-semibold text-rose-400 flex items-center gap-1">
+                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                    <span className="text-rose-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Hard
                     </span>
-                    <span className="font-mono text-gray-300">{hard} Solved</span>
+                    <span className="text-gray-300">{hard}</span>
                   </div>
-                  <div className="w-full bg-white/5 rounded-full h-2 overflow-hidden border border-white/10">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${Math.min(100, (hard / totalLC) * 100 * 3)}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.2 }}
+                  <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      style={{ width: `${Math.min(100, (hard / totalLC) * 100 * 3)}%` }}
                       className="h-full bg-rose-400 rounded-full"
                     />
                   </div>
@@ -276,7 +319,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
               </div>
 
             </div>
-          </motion.div>
+          </div>
 
         </div>
 

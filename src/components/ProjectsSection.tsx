@@ -15,39 +15,35 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
   return (
-    <section id="projects" className="py-20 relative overflow-hidden">
+    <section id="projects" className="py-20 relative overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center mb-14"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold uppercase tracking-wider mb-3">
-            <FolderGit2 className="w-3.5 h-3.5" />
-            <span>Featured Portfolio Work</span>
+        {/* Asymmetric Header Layout */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-mono text-violet-400 tracking-wider uppercase mb-2">
+              <FolderGit2 className="w-3.5 h-3.5" />
+              <span>// FEATURED_PORTFOLIO</span>
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
+              Selected Software Projects
+            </h2>
           </div>
-          <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-white">
-            Selected <span className="gradient-text">Projects</span>
-          </h2>
-          <p className="mt-3 text-gray-400 max-w-xl text-base">
-            Architected for performance, real-time collaboration, and rich user interactions.
+          <p className="text-gray-400 text-sm max-w-md">
+            Engineered for real-time performance, vector graphics, geospatial queries, and quantitative analytics.
           </p>
-        </motion.div>
+        </div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, idx) => (
             <motion.div
               key={project.slug || idx}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="glass-card flex flex-col justify-between overflow-hidden group hover:-translate-y-1 transition-all duration-300"
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="solid-card flex flex-col justify-between overflow-hidden group"
             >
               <div>
                 {/* Image Container */}
@@ -57,7 +53,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     alt={project.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-black/20 to-transparent" />
                   
@@ -66,13 +62,13 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     {project.techStack.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
-                        className="px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-semibold text-gray-200"
+                        className="px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] font-semibold text-gray-200"
                       >
                         {tech}
                       </span>
                     ))}
                     {project.techStack.length > 3 && (
-                      <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-semibold text-pink-300">
+                      <span className="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] font-semibold text-pink-300">
                         +{project.techStack.length - 3}
                       </span>
                     )}
@@ -81,7 +77,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
 
                 {/* Content */}
                 <div className="p-6">
-                  <h3 className="font-display text-xl font-bold text-white group-hover:text-violet-300 transition-colors line-clamp-1">
+                  <h3 className="font-display text-lg font-bold text-white group-hover:text-violet-300 transition-colors line-clamp-1">
                     {project.name}
                   </h3>
                   <p className="mt-2 text-gray-400 text-sm leading-relaxed line-clamp-2">
