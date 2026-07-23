@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090e;
+  --foreground: #f3f4f6;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-violet: #8b5cf6;
+  --accent-magenta: #ec4899;
+  --accent-orange: #f97316;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-accent-violet: var(--accent-violet);
+  --color-accent-magenta: var(--accent-magenta);
+  --color-accent-orange: var(--accent-orange);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  overflow-x: hidden;
+  selection-background-color: rgba(139, 92, 246, 0.3);
+  selection-color: #ffffff;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #09090e;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.4);
+}
+
+/* Glassmorphism utility */
+.glass-card {
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.12), inset 0 0 15px rgba(255, 255, 255, 0.02);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #fb923c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gradient pill CTA button */
+.gradient-pill-btn {
+  position: relative;
+  background: linear-gradient(135deg, #7c3aed 0%, #d946ef 50%, #f97316 100%);
+  border-radius: 9999px;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(217, 70, 239, 0.25);
+}
+
+.gradient-pill-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.gradient-pill-btn:hover::before {
+  left: 100%;
+}
+
+.gradient-pill-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(217, 70, 239, 0.45);
+}
+
+/* Spotlight Background Glow */
+.spotlight-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, rgba(236, 72, 153, 0.08) 40%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Profile Photo Treatment: Angular Beveled Frame with Animated Gradient Border */
+.profile-angular-wrapper {
+  position: relative;
+  padding: 4px;
+  clip-path: polygon(
+    14px 0, 
+    calc(100% - 14px) 0, 
+    100% 14px, 
+    100% calc(100% - 14px), 
+    calc(100% - 14px) 100%, 
+    14px 100%, 
+    0 calc(100% - 14px), 
+    0 14px
+  );
+  background: linear-gradient(135deg, #7c3aed, #ec4899, #f97316, #7c3aed);
+  background-size: 300% 300%;
+  animation: gradientRotate 6s ease infinite;
+}
+
+.profile-angular-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0d0d14;
+  clip-path: polygon(
+    12px 0, 
+    calc(100% - 12px) 0, 
+    100% 12px, 
+    100% calc(100% - 12px), 
+    calc(100% - 12px) 100%, 
+    12px 100%, 
+    0 calc(100% - 12px), 
+    0 12px
+  );
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.profile-angular-wrapper:hover .profile-angular-inner {
+  box-shadow: inset 0 0 30px rgba(139, 92, 246, 0.3);
+}
+
+@keyframes gradientRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
