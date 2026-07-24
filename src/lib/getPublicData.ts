@@ -190,6 +190,23 @@ async function getOrRefreshCodingStats() {
   }
 }
 
+export async function fetchAllProjects() {
+  try {
+    const conn = await connectToDatabase();
+    if (!conn) return DEFAULT_PROJECTS;
+
+    let projects = await Project.find().sort({ order: 1, createdAt: -1 }).lean();
+    if (projects.length === 0) {
+      await Project.insertMany(DEFAULT_PROJECTS);
+      projects = await Project.find().sort({ order: 1, createdAt: -1 }).lean();
+    }
+    return JSON.parse(JSON.stringify(projects));
+  } catch (err) {
+    console.error('[fetchAllProjects] error:', err);
+    return DEFAULT_PROJECTS;
+  }
+}
+
 export async function fetchPublicPortfolioData() {
   try {
     const conn = await connectToDatabase();

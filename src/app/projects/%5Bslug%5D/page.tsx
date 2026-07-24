@@ -20,8 +20,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug?: string }> }) {
   const resolvedParams = await params;
   const slug = resolvedParams?.slug || '';
+  const project = await getProjectBySlug(slug);
   return {
-    title: slug ? `${slug.replace(/-/g, ' ')} | Project Detail` : 'Project Detail',
+    title: project?.name ? `${project.name} | Alvi Hasan` : 'Project Detail | Alvi Hasan',
+    description: project?.teaser || 'Project details',
   };
 }
 
@@ -61,11 +63,11 @@ export default async function ProjectDetailPage({
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back link */}
           <Link
-            href="/#projects"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-white mb-8 transition-colors"
+            href="/projects"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-white mb-8 transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4 text-violet-400" />
-            <span>Back to All Projects</span>
+            <ArrowLeft className="w-4 h-4 text-violet-400 group-hover:-translate-x-0.5 transition-transform" />
+            <span>All Projects</span>
           </Link>
 
           {/* Hero Banner Image */}

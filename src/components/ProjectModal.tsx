@@ -1,166 +1,239 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, AlertTriangle, Lightbulb, Code2 } from 'lucide-react';
+import { X, ExternalLink, AlertTriangle, Lightbulb, Code2, GitBranch } from 'lucide-react';
 import { GithubIcon } from './BrandIcons';
-
-export interface ProjectItem {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  _id?: string | any;
-  name: string;
-  slug: string;
-  image: string;
-  teaser: string;
-  techStack: string[];
-  description: string;
-  liveUrl?: string;
-  githubUrl?: string;
-  challenges?: string;
-  futureImprovements?: string;
-  featured?: boolean;
-}
+import type { ProjectItem } from './ProjectsSection';
 
 interface ProjectModalProps {
   project: ProjectItem | null;
   onClose: () => void;
 }
 
+const TECH_DOTS = [
+  'bg-violet-400',
+  'bg-pink-400',
+  'bg-sky-400',
+  'bg-orange-400',
+  'bg-emerald-400',
+];
+
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
-  if (!project) return null;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  /* Lock body scroll & listen for Escape */
+  useEffect(() => {
+    if (!project) return;
+
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+
+    // Reset scroll position every time a new project opens
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [project, onClose]);
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md"
-        />
+      {project && (
+        /* ── Portal-like fixed layer ── */
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 sm:px-6">
 
-        {/* Modal Window */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#0d0d14] border border-white/10 rounded-3xl shadow-2xl z-10 glass-card p-6 sm:p-10 my-auto"
-        >
-          {/* Close Button */}
-          <button
+          {/* Backdrop */}
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
             onClick={onClose}
-            className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-colors focus:outline-none z-20"
-          >
-            <X className="w-6 h-6" />
-          </button>
+            className="absolute inset-0 bg-black/75 backdrop-blur-md"
+          />
 
-          {/* Project Header & Image */}
-          <div className="relative w-full h-[280px] sm:h-[380px] rounded-2xl overflow-hidden mb-8 border border-white/10">
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              sizes="(max-width: 1200px) 100vw, 800px"
-              className="object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-transparent to-transparent opacity-80" />
-            <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4">
-              <h3 className="font-display text-2xl sm:text-4xl font-extrabold text-white">
-                {project.name}
-              </h3>
-              <div className="flex items-center gap-3">
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gradient-pill-btn py-2 px-5 text-sm flex items-center gap-2"
+          {/* Modal shell — outer wrapper centers, inner scrolls */}
+          <motion.div
+            key="modal"
+            initial={{ opacity: 0, scale: 0.94, y: 16, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 0.94, y: 16, filter: 'blur(4px)' }}
+            transition={{ type: 'spring', stiffness: 340, damping: 28 }}
+            className="relative w-full max-w-3xl z-10 flex flex-col"
+            style={{ maxHeight: '85vh' }}
+          >
+            {/* ── Gradient border wrapper ── */}
+            <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-violet-500/50 via-pink-500/30 to-violet-500/50 shadow-2xl shadow-violet-900/40">
+              <div className="rounded-[calc(1rem-1px)] bg-[#0d0d14] flex flex-col overflow-hidden" style={{ maxHeight: 'calc(85vh - 2px)' }}>
+
+                {/* ── Sticky header (never scrolls away) ── */}
+                <div className="shrink-0 flex items-start justify-between gap-4 px-6 pt-6 pb-4 border-b border-white/8 bg-[#0d0d14]">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mb-1">
+                      Project Detail
+                    </p>
+                    <h2 className="font-display text-xl sm:text-2xl font-extrabold text-white leading-tight truncate">
+                      {project.name}
+                    </h2>
+                  </div>
+                  <button
+                    onClick={onClose}
+                    aria-label="Close modal"
+                    className="shrink-0 mt-0.5 p-2 rounded-xl bg-white/8 hover:bg-white/15 text-gray-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
                   >
-                    <span>Live Demo</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                )}
-                {project.githubUrl && (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors"
-                    title="GitHub Repository"
-                  >
-                    <GithubIcon className="w-5 h-5" />
-                  </a>
-                )}
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* ── Scrollable body ── */}
+                <div
+                  ref={scrollRef}
+                  className="overflow-y-auto overscroll-contain flex-1"
+                  style={{ scrollbarGutter: 'stable' }}
+                >
+                  {/* Hero image */}
+                  <div className="relative w-full h-[200px] sm:h-[260px] shrink-0">
+                    <Image
+                      src={project.image}
+                      alt={project.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      className="object-cover object-center"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/10 to-transparent" />
+                    {/* Live + GitHub overlaid on image */}
+                    <div className="absolute bottom-5 right-5 flex items-center gap-2">
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="gradient-pill-btn py-2 px-5 text-xs flex items-center gap-1.5"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Live Demo</span>
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2.5 rounded-full bg-black/60 hover:bg-white/15 text-white border border-white/15 transition-colors backdrop-blur-sm"
+                          title="GitHub Repository"
+                        >
+                          <GithubIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* ── Content sections ── */}
+                  <div className="px-6 pb-8 pt-5 space-y-6">
+
+                    {/* 1. Tech Stack */}
+                    <div>
+                      <h3 className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                        <GitBranch className="w-3.5 h-3.5" />
+                        Technology Stack
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {project.techStack.map((tech, ti) => (
+                          <span
+                            key={tech}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.05] border border-white/[0.08] text-[11px] font-semibold text-gray-300"
+                          >
+                            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${TECH_DOTS[ti % TECH_DOTS.length]}`} />
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 2. Description */}
+                    <div>
+                      <h3 className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">
+                        <Code2 className="w-3.5 h-3.5" />
+                        Project Overview
+                      </h3>
+                      <p className="text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-line font-sans">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    {/* 3 & 4: Live link + GitHub — also in body for easy access when scrolled past image */}
+                    {(project.liveUrl || project.githubUrl) && (
+                      <div className="flex flex-wrap gap-3 pt-1">
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-300 hover:text-white hover:bg-violet-500/20 text-xs font-semibold transition-colors"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            Live Project
+                          </a>
+                        )}
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.05] border border-white/[0.10] text-gray-300 hover:text-white hover:bg-white/[0.10] text-xs font-semibold transition-colors"
+                          >
+                            <GithubIcon className="w-3.5 h-3.5" />
+                            GitHub (Client Repo)
+                          </a>
+                        )}
+                      </div>
+                    )}
+
+                    {/* 5. Challenges */}
+                    {project.challenges && (
+                      <div className="rounded-xl bg-amber-500/5 border border-amber-500/20 p-5">
+                        <h3 className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-widest mb-3">
+                          <AlertTriangle className="w-3.5 h-3.5" />
+                          Challenges Faced
+                        </h3>
+                        <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line font-sans">
+                          {project.challenges}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* 6. Future Improvements */}
+                    {project.futureImprovements && (
+                      <div className="rounded-xl bg-cyan-500/5 border border-cyan-500/20 p-5">
+                        <h3 className="flex items-center gap-2 text-xs font-bold text-cyan-400 uppercase tracking-widest mb-3">
+                          <Lightbulb className="w-3.5 h-3.5" />
+                          Future Improvements
+                        </h3>
+                        <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line font-sans">
+                          {project.futureImprovements}
+                        </p>
+                      </div>
+                    )}
+
+                  </div>
+                </div>
+                {/* End scrollable body */}
+
               </div>
             </div>
-          </div>
-
-          {/* Tech Stack Badges */}
-          <div className="mb-6 flex flex-wrap gap-2">
-            {project.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {/* Full Description */}
-          <div className="mb-8">
-            <h4 className="font-display text-lg font-bold text-white mb-2 flex items-center gap-2">
-              <Code2 className="w-5 h-5 text-pink-400" />
-              <span>Project Overview</span>
-            </h4>
-            <p className="text-gray-300 text-base leading-relaxed whitespace-pre-line font-sans">
-              {project.description}
-            </p>
-          </div>
-
-          {/* Challenges & Future Improvements Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-white/10">
-            {project.challenges && (
-              <div className="p-5 rounded-2xl bg-amber-500/5 border border-amber-500/20">
-                <h5 className="font-display font-bold text-amber-300 mb-2 flex items-center gap-2 text-sm">
-                  <AlertTriangle className="w-4 h-4 text-amber-400" />
-                  <span>Technical Challenges</span>
-                </h5>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
-                  {project.challenges}
-                </p>
-              </div>
-            )}
-
-            {project.futureImprovements && (
-              <div className="p-5 rounded-2xl bg-cyan-500/5 border border-cyan-500/20">
-                <h5 className="font-display font-bold text-cyan-300 mb-2 flex items-center gap-2 text-sm">
-                  <Lightbulb className="w-4 h-4 text-cyan-400" />
-                  <span>Future Roadmap</span>
-                </h5>
-                <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
-                  {project.futureImprovements}
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Dedicated Page Link Footer */}
-          <div className="mt-8 pt-4 flex justify-end">
-            <Link
-              href={`/projects/${project.slug}`}
-              className="text-xs text-violet-400 hover:text-pink-300 font-semibold underline flex items-center gap-1"
-            >
-              <span>Open Dedicated Page</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
+      )}
     </AnimatePresence>
   );
 }
