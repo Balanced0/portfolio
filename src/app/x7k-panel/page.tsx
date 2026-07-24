@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { getTechIcon, getSkillIconSlug, KNOWN_SKILLICONS_SLUGS } from '@/components/TechIcons';
 import {
   User,
   Wrench,
@@ -288,79 +289,120 @@ export default function AdminDashboardPage() {
           {/* SKILLS TAB */}
           {activeTab === 'skills' && (
             <div>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="font-display text-xl font-bold">Skills Catalog</h2>
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="font-display text-xl font-bold">Skills & Tech Stack</h2>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    Icons are rendered using <strong>skillicons.dev</strong>. Slugs are automatically suggested based on the skill name.
+                  </p>
+                </div>
                 <button
-                  onClick={() => addEntityItem('skills', { name: 'New Skill', category: 'Frontend', proficiency: 80, icon: 'Code2', order: skills.length + 1 })}
-                  className="px-3.5 py-2 rounded-xl bg-violet-600 text-white text-xs font-semibold flex items-center gap-1.5"
+                  onClick={() => addEntityItem('skills', { name: 'New Skill', category: 'Frontend', iconSlug: '', icon: '', order: skills.length + 1 })}
+                  className="px-3.5 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
                 >
                   <Plus className="w-4 h-4" /> Add Skill
                 </button>
               </div>
 
-              <div className="space-y-4">
-                {skills.map((skill, idx) => (
-                  <div key={idx} className="p-4 rounded-xl bg-white/[0.02] border border-white/10 grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
-                    <input
-                      type="text"
-                      value={skill.name}
-                      onChange={(e) => {
-                        const copy = [...skills];
-                        copy[idx].name = e.target.value;
-                        setSkills(copy);
-                      }}
-                      placeholder="Skill Name"
-                      className="px-3 py-2 glass-input text-xs"
-                    />
-                    <input
-                      type="text"
-                      value={skill.category}
-                      onChange={(e) => {
-                        const copy = [...skills];
-                        copy[idx].category = e.target.value;
-                        setSkills(copy);
-                      }}
-                      placeholder="Category"
-                      className="px-3 py-2 glass-input text-xs"
-                    />
-                    <input
-                      type="number"
-                      value={skill.proficiency}
-                      onChange={(e) => {
-                        const copy = [...skills];
-                        copy[idx].proficiency = parseInt(e.target.value) || 0;
-                        setSkills(copy);
-                      }}
-                      placeholder="Proficiency %"
-                      className="px-3 py-2 glass-input text-xs"
-                    />
-                    <input
-                      type="text"
-                      value={skill.icon || ''}
-                      onChange={(e) => {
-                        const copy = [...skills];
-                        copy[idx].icon = e.target.value;
-                        setSkills(copy);
-                      }}
-                      placeholder="Icon Name"
-                      className="px-3 py-2 glass-input text-xs"
-                    />
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => saveEntityItem('skills', skill)}
-                        className="px-3 py-2 rounded-lg bg-emerald-600/30 text-emerald-300 text-xs font-semibold flex items-center gap-1"
-                      >
-                        <Save className="w-3.5 h-3.5" /> Save
-                      </button>
-                      <button
-                        onClick={() => deleteEntityItem('skills', skill._id, idx)}
-                        className="p-2 rounded-lg bg-rose-600/30 text-rose-300"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+              <div className="space-y-3">
+                {skills.map((skill, idx) => {
+                  const currentSlug = skill.iconSlug || skill.icon || '';
+                  const isValidSlug = currentSlug && KNOWN_SKILLICONS_SLUGS.has(currentSlug.toLowerCase().trim());
+                  
+                  return (
+                    <div key={idx} className="p-4 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col gap-3">
+                      <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+                        {/* Live Icon Preview */}
+                        <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center shrink-0" title="Live Icon Preview">
+                          {getTechIcon(skill.name, currentSlug, 'w-6 h-6')}
+                        </div>
+
+                        {/* Skill Name */}
+                        <div className="flex-1 w-full">
+                          <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Skill Name</label>
+                          <input
+                            type="text"
+                            value={skill.name}
+                            onChange={(e) => {
+                              const copy = [...skills];
+                              copy[idx].name = e.target.value;
+                              // Auto-suggest slug if it was empty or matched the auto-suggest of the previous name
+                              const oldSuggest = getSkillIconSlug(skill.name);
+                              if (!skill.iconSlug || skill.iconSlug === oldSuggest) {
+                                copy[idx].iconSlug = getSkillIconSlug(e.target.value);
+                              }
+                              setSkills(copy);
+                            }}
+                            placeholder="Skill Name (e.g. Next.js, React)"
+                            className="px-3 py-2 glass-input text-xs w-full"
+                          />
+                        </div>
+
+                        {/* Icon Slug */}
+                        <div className="sm:w-56 w-full">
+                          <div className="flex justify-between items-center mb-1">
+                            <label className="text-[10px] text-gray-400 uppercase font-semibold">Icon Slug</label>
+                            {/* Validation indicator */}
+                            {currentSlug ? (
+                              isValidSlug ? (
+                                <span className="text-[9px] text-emerald-400 font-bold">✓ Valid Slug</span>
+                              ) : (
+                                <span className="text-[9px] text-amber-400 font-semibold">Fallback Monogram</span>
+                              )
+                            ) : (
+                              <span className="text-[9px] text-gray-500 font-semibold">Monogram</span>
+                            )}
+                          </div>
+                          <input
+                            type="text"
+                            value={skill.iconSlug || skill.icon || ''}
+                            onChange={(e) => {
+                              const copy = [...skills];
+                              copy[idx].iconSlug = e.target.value;
+                              copy[idx].icon = e.target.value; // Sync to legacy field for DB consistency
+                              setSkills(copy);
+                            }}
+                            placeholder="Slug (e.g. nextjs, react)"
+                            className="px-3 py-2 glass-input text-xs w-full"
+                          />
+                        </div>
+
+                        {/* Category */}
+                        <div className="sm:w-44 w-full">
+                          <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Category</label>
+                          <input
+                            type="text"
+                            value={skill.category}
+                            onChange={(e) => {
+                              const copy = [...skills];
+                              copy[idx].category = e.target.value;
+                              setSkills(copy);
+                            }}
+                            placeholder="Category (e.g. Frontend, Backend)"
+                            className="px-3 py-2 glass-input text-xs w-full"
+                          />
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto pt-5">
+                          <button
+                            onClick={() => saveEntityItem('skills', skill)}
+                            className="px-3 py-2 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 text-xs font-semibold flex items-center gap-1 transition-colors"
+                          >
+                            <Save className="w-3.5 h-3.5" /> Save
+                          </button>
+                          <button
+                            onClick={() => deleteEntityItem('skills', skill._id, idx)}
+                            className="p-2 rounded-lg bg-rose-600/30 hover:bg-rose-600/50 text-rose-300 transition-colors"
+                            title="Delete Skill"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -811,31 +853,24 @@ export default function AdminDashboardPage() {
           {activeTab === 'contact' && (
             <div className="flex flex-col gap-5">
               <h2 className="font-display text-xl font-bold">Contact Details</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
                   <input
                     type="email"
                     value={contact.email || ''}
                     onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                    placeholder="alvichowdhury013@gmail.com"
                     className="w-full px-4 py-2.5 glass-input text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">Phone Number</label>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">LinkedIn Profile URL</label>
                   <input
                     type="text"
-                    value={contact.phone || ''}
-                    onChange={(e) => setContact({ ...contact, phone: e.target.value })}
-                    className="w-full px-4 py-2.5 glass-input text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-400 mb-1">WhatsApp Number</label>
-                  <input
-                    type="text"
-                    value={contact.whatsapp || ''}
-                    onChange={(e) => setContact({ ...contact, whatsapp: e.target.value })}
+                    value={contact.linkedin || ''}
+                    onChange={(e) => setContact({ ...contact, linkedin: e.target.value })}
+                    placeholder="https://www.linkedin.com/in/your-profile"
                     className="w-full px-4 py-2.5 glass-input text-sm"
                   />
                 </div>

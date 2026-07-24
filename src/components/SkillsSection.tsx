@@ -10,6 +10,7 @@ export interface SkillItem {
   category: string;
   proficiency?: number;
   icon?: string;
+  iconSlug?: string;
   order?: number;
 }
 
@@ -176,7 +177,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                   >
                     <div className="tech-icon-frame-inner px-5 py-3.5 flex items-center gap-3">
                       <div className="transform group-hover:scale-110 transition-transform duration-300">
-                        {getTechIcon(skill.name, skill.icon, 'w-6 h-6 sm:w-7 sm:h-7')}
+                        {getTechIcon(skill.name, skill.iconSlug || skill.icon, 'w-6 h-6 sm:w-7 sm:h-7')}
                       </div>
                       <span className="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white transition-colors whitespace-nowrap">
                         {skill.name}
@@ -197,7 +198,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                   >
                     <div className="tech-icon-frame-inner px-5 py-3.5 flex items-center gap-3">
                       <div className="transform group-hover:scale-110 transition-transform duration-300">
-                        {getTechIcon(skill.name, skill.icon, 'w-6 h-6 sm:w-7 sm:h-7')}
+                        {getTechIcon(skill.name, skill.iconSlug || skill.icon, 'w-6 h-6 sm:w-7 sm:h-7')}
                       </div>
                       <span className="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white transition-colors whitespace-nowrap">
                         {skill.name}
@@ -248,7 +249,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                   >
                     <div className="tech-icon-frame-inner p-5 flex flex-col items-center justify-center text-center gap-3">
                       <div className="p-3 rounded-2xl bg-white/[0.03] group-hover:bg-violet-500/10 border border-white/5 group-hover:border-violet-500/30 transition-all duration-300 transform group-hover:scale-110">
-                        {getTechIcon(skill.name, skill.icon, 'w-8 h-8 sm:w-9 sm:h-9')}
+                        {getTechIcon(skill.name, skill.iconSlug || skill.icon, 'w-8 h-8 sm:w-9 sm:h-9')}
                       </div>
                       <span className="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white transition-colors">
                         {skill.name}

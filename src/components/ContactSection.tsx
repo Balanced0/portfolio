@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MessageSquare, Send, CheckCircle2, Copy, Sparkles } from 'lucide-react';
+import { Mail, Send, CheckCircle2, Copy, ExternalLink } from 'lucide-react';
+import { LinkedinIcon } from './BrandIcons';
 
 interface ContactSectionProps {
   contact: {
     email: string;
-    phone: string;
+    linkedin?: string;
+    phone?: string;
     whatsapp?: string;
   };
 }
@@ -17,9 +19,8 @@ export default function ContactSection({ contact }: ContactSectionProps) {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  const email = contact?.email || 'alvihasan.dev@gmail.com';
-  const phone = contact?.phone || '+880 1700 000000';
-  const whatsapp = contact?.whatsapp || '+880 1700 000000';
+  const email = contact?.email || 'alvichowdhury013@gmail.com';
+  const linkedinUrl = contact?.linkedin || 'https://linkedin.com';
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -69,18 +70,18 @@ export default function ContactSection({ contact }: ContactSectionProps) {
           >
             {/* Email Card */}
             <div className="solid-card p-5 flex items-center justify-between group">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center text-violet-400">
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="w-10 h-10 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center text-violet-400 shrink-0">
                   <Mail className="w-5 h-5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <span className="text-[10px] text-gray-400 uppercase font-medium tracking-wider">Email</span>
-                  <p className="text-white font-display font-semibold text-sm">{email}</p>
+                  <p className="text-white font-display font-semibold text-sm truncate">{email}</p>
                 </div>
               </div>
               <button
                 onClick={() => copyToClipboard(email, 'email')}
-                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors"
+                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors shrink-0 ml-2"
                 title="Copy Email"
               >
                 {copiedField === 'email' ? (
@@ -91,53 +92,42 @@ export default function ContactSection({ contact }: ContactSectionProps) {
               </button>
             </div>
 
-            {/* Phone Card */}
+            {/* LinkedIn Card */}
             <div className="solid-card p-5 flex items-center justify-between group">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-pink-600/20 border border-pink-500/30 flex items-center justify-center text-pink-400">
-                  <Phone className="w-5 h-5" />
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+                  <LinkedinIcon className="w-5 h-5" />
                 </div>
-                <div>
-                  <span className="text-[10px] text-gray-400 uppercase font-medium tracking-wider">Phone</span>
-                  <p className="text-white font-display font-semibold text-sm">{phone}</p>
+                <div className="min-w-0">
+                  <span className="text-[10px] text-gray-400 uppercase font-medium tracking-wider">LinkedIn</span>
+                  <p className="text-white font-display font-semibold text-sm truncate">
+                    {linkedinUrl.replace(/^https?:\/\/(www\.)?/, '')}
+                  </p>
                 </div>
               </div>
-              <button
-                onClick={() => copyToClipboard(phone, 'phone')}
-                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors"
-                title="Copy Phone Number"
-              >
-                {copiedField === 'phone' ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                ) : (
-                  <Copy className="w-4 h-4" />
-                )}
-              </button>
-            </div>
-
-            {/* WhatsApp Card */}
-            {whatsapp && (
-              <div className="solid-card p-5 flex items-center justify-between group">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <MessageSquare className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-gray-400 uppercase font-medium tracking-wider">WhatsApp</span>
-                    <p className="text-white font-display font-semibold text-sm">{whatsapp}</p>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2 shrink-0 ml-2">
+                <button
+                  onClick={() => copyToClipboard(linkedinUrl, 'linkedin')}
+                  className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors"
+                  title="Copy LinkedIn Link"
+                >
+                  {copiedField === 'linkedin' ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </button>
                 <a
-                  href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
+                  href={linkedinUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-colors"
-                  title="Open WhatsApp Chat"
+                  title="Open LinkedIn Profile"
                 >
-                  <Send className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
-            )}
+            </div>
           </motion.div>
 
           {/* Right Column: Contact Form (7 cols) */}

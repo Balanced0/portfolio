@@ -15,41 +15,41 @@ export const DEFAULT_PROFILE = {
 
 export const DEFAULT_SKILLS = [
   // Languages
-  { name: "C++", category: "Languages", proficiency: 92, icon: "CPlusPlus", order: 1 },
-  { name: "Python", category: "Languages", proficiency: 94, icon: "Python", order: 2 },
-  { name: "Java", category: "Languages", proficiency: 88, icon: "Java", order: 3 },
-  { name: "JavaScript", category: "Languages", proficiency: 96, icon: "JavaScript", order: 4 },
-  { name: "TypeScript", category: "Languages", proficiency: 95, icon: "TypeScript", order: 5 },
-  { name: "HTML5", category: "Languages", proficiency: 98, icon: "Html5", order: 6 },
-  { name: "CSS3", category: "Languages", proficiency: 95, icon: "Css3", order: 7 },
+  { name: "C++", category: "Languages", proficiency: 92, icon: "CPlusPlus", iconSlug: "cpp", order: 1 },
+  { name: "Python", category: "Languages", proficiency: 94, icon: "Python", iconSlug: "python", order: 2 },
+  { name: "Java", category: "Languages", proficiency: 88, icon: "Java", iconSlug: "java", order: 3 },
+  { name: "JavaScript", category: "Languages", proficiency: 96, icon: "JavaScript", iconSlug: "js", order: 4 },
+  { name: "TypeScript", category: "Languages", proficiency: 95, icon: "TypeScript", iconSlug: "ts", order: 5 },
+  { name: "HTML5", category: "Languages", proficiency: 98, icon: "Html5", iconSlug: "html", order: 6 },
+  { name: "CSS3", category: "Languages", proficiency: 95, icon: "Css3", iconSlug: "css", order: 7 },
 
   // Frontend
-  { name: "React.js", category: "Frontend", proficiency: 96, icon: "React", order: 8 },
-  { name: "Next.js", category: "Frontend", proficiency: 94, icon: "Nextjs", order: 9 },
-  { name: "Tailwind CSS", category: "Frontend", proficiency: 95, icon: "Tailwind", order: 10 },
-  { name: "Three.js & WebGL", category: "Frontend", proficiency: 82, icon: "Threejs", order: 11 },
-  { name: "Framer Motion & GSAP", category: "Frontend", proficiency: 90, icon: "FramerMotion", order: 12 },
+  { name: "React.js", category: "Frontend", proficiency: 96, icon: "React", iconSlug: "react", order: 8 },
+  { name: "Next.js", category: "Frontend", proficiency: 94, icon: "Nextjs", iconSlug: "nextjs", order: 9 },
+  { name: "Tailwind CSS", category: "Frontend", proficiency: 95, icon: "Tailwind", iconSlug: "tailwind", order: 10 },
+  { name: "Three.js & WebGL", category: "Frontend", proficiency: 82, icon: "Threejs", iconSlug: "threejs", order: 11 },
+  { name: "Framer Motion & GSAP", category: "Frontend", proficiency: 90, icon: "FramerMotion", iconSlug: "framer", order: 12 },
 
   // Backend
-  { name: "Node.js", category: "Backend", proficiency: 93, icon: "Nodejs", order: 13 },
-  { name: "Express.js", category: "Backend", proficiency: 92, icon: "Express", order: 14 },
-  { name: "Django", category: "Backend", proficiency: 85, icon: "Django", order: 15 },
-  { name: "REST & GraphQL APIs", category: "Backend", proficiency: 94, icon: "RestApi", order: 16 },
-  { name: "Microservices & WebSockets", category: "Backend", proficiency: 88, icon: "Cpu", order: 17 },
+  { name: "Node.js", category: "Backend", proficiency: 93, icon: "Nodejs", iconSlug: "nodejs", order: 13 },
+  { name: "Express.js", category: "Backend", proficiency: 92, icon: "Express", iconSlug: "express", order: 14 },
+  { name: "Django", category: "Backend", proficiency: 85, icon: "Django", iconSlug: "django", order: 15 },
+  { name: "REST & GraphQL APIs", category: "Backend", proficiency: 94, icon: "RestApi", iconSlug: "graphql", order: 16 },
+  { name: "Microservices & WebSockets", category: "Backend", proficiency: 88, icon: "Cpu", iconSlug: "", order: 17 },
 
   // Databases
-  { name: "MongoDB", category: "Databases", proficiency: 92, icon: "Mongodb", order: 18 },
-  { name: "PostgreSQL", category: "Databases", proficiency: 90, icon: "Postgres", order: 19 },
-  { name: "MySQL", category: "Databases", proficiency: 88, icon: "Mysql", order: 20 },
-  { name: "Redis", category: "Databases", proficiency: 86, icon: "Redis", order: 21 },
+  { name: "MongoDB", category: "Databases", proficiency: 92, icon: "Mongodb", iconSlug: "mongodb", order: 18 },
+  { name: "PostgreSQL", category: "Databases", proficiency: 90, icon: "Postgres", iconSlug: "postgres", order: 19 },
+  { name: "MySQL", category: "Databases", proficiency: 88, icon: "Mysql", iconSlug: "mysql", order: 20 },
+  { name: "Redis", category: "Databases", proficiency: 86, icon: "Redis", iconSlug: "redis", order: 21 },
 
   // Tools & Cloud
-  { name: "Git", category: "Tools", proficiency: 96, icon: "Git", order: 22 },
-  { name: "GitHub", category: "Tools", proficiency: 96, icon: "Github", order: 23 },
-  { name: "Postman", category: "Tools", proficiency: 92, icon: "Postman", order: 24 },
-  { name: "Vercel", category: "Tools", proficiency: 94, icon: "Vercel", order: 25 },
-  { name: "Docker", category: "Tools", proficiency: 86, icon: "Docker", order: 26 },
-  { name: "AWS Cloud", category: "Tools", proficiency: 84, icon: "Aws", order: 27 },
+  { name: "Git", category: "Tools", proficiency: 96, icon: "Git", iconSlug: "git", order: 22 },
+  { name: "GitHub", category: "Tools", proficiency: 96, icon: "Github", iconSlug: "github", order: 23 },
+  { name: "Postman", category: "Tools", proficiency: 92, icon: "Postman", iconSlug: "postman", order: 24 },
+  { name: "Vercel", category: "Tools", proficiency: 94, icon: "Vercel", iconSlug: "vercel", order: 25 },
+  { name: "Docker", category: "Tools", proficiency: 86, icon: "Docker", iconSlug: "docker", order: 26 },
+  { name: "AWS Cloud", category: "Tools", proficiency: 84, icon: "Aws", iconSlug: "aws", order: 27 },
 ];
 
 export const DEFAULT_EDUCATION = [
@@ -139,9 +139,10 @@ export const DEFAULT_SOCIALS = [
 ];
 
 export const DEFAULT_CONTACT = {
-  email: "alvihasan.dev@gmail.com",
-  phone: "+880 1700 000000",
-  whatsapp: "+880 1700 000000"
+  email: "alvichowdhury013@gmail.com",
+  linkedin: "https://linkedin.com",
+  phone: "",
+  whatsapp: ""
 };
 
 export const DEFAULT_STATS = [

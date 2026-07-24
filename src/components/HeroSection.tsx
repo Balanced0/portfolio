@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Code, Terminal, CheckCircle2, ArrowRight } from 'lucide-react';
-import { GithubIcon, LinkedinIcon, TwitterIcon } from './BrandIcons';
+import { Download, Code, CheckCircle2, ArrowRight } from 'lucide-react';
+import { GithubIcon, LinkedinIcon, TwitterIcon, CodeforcesIcon, LeetcodeIcon } from './BrandIcons';
 import SplineHero from './SplineHero';
 import ProfilePhotoCard from './ProfilePhotoCard';
 
@@ -38,8 +38,8 @@ export default function HeroSection({ profile, socialLinks }: HeroSectionProps) 
     const p = platform.toLowerCase();
     if (p.includes('github')) return <GithubIcon className="w-4 h-4" />;
     if (p.includes('linkedin')) return <LinkedinIcon className="w-4 h-4" />;
-    if (p.includes('codeforces')) return <Code className="w-4 h-4" />;
-    if (p.includes('leetcode')) return <Terminal className="w-4 h-4" />;
+    if (p.includes('codeforces')) return <CodeforcesIcon className="w-4 h-4" />;
+    if (p.includes('leetcode')) return <LeetcodeIcon className="w-4 h-4" />;
     if (p.includes('twitter') || p.includes('x')) return <TwitterIcon className="w-4 h-4" />;
     return <Code className="w-4 h-4" />;
   };
