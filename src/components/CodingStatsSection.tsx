@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Code, Terminal, Trophy, ExternalLink, Award, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Code, Terminal, Trophy, ExternalLink, CheckCircle2 } from 'lucide-react';
 
 export interface CodingStatItem {
   platform: 'codeforces' | 'leetcode' | string;
@@ -95,15 +94,15 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
             <div className="terminal-dot bg-rose-500/80" />
             <div className="terminal-dot bg-amber-500/80" />
             <div className="terminal-dot bg-emerald-500/80" />
-            <span className="text-[11px] font-mono text-gray-400 ml-2">
-              bash - competitive-programming-telemetry --user=MISTYCAN
+            <span className="text-[11px] font-medium text-gray-400 ml-2">
+              competitive-programming-telemetry --user=MISTYCAN
             </span>
           </div>
           <div className="p-4 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-[#0a0c10]">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
+              <div className="flex items-center gap-2 text-xs font-semibold text-cyan-400 uppercase tracking-widest mb-1">
                 <Trophy className="w-3.5 h-3.5" />
-                <span>ACM-ICPC & ALGORITHMIC PROFILE</span>
+                <span>ACM-ICPC & Algorithmic Profile</span>
               </div>
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
                 Competitive Programming Metrics
@@ -133,7 +132,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
         {/* Platforms Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Codeforces Terminal Card with Rating Sparkline Chart (7 cols) */}
+          {/* Codeforces Card */}
           <div className="lg:col-span-7 terminal-frame p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
@@ -143,10 +142,10 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
                   </div>
                   <div>
                     <h3 className="font-display text-lg font-bold text-white">Codeforces Profile</h3>
-                    <span className="text-xs font-mono text-sky-400">Handle: {codeforces.handle}</span>
+                    <span className="text-xs text-sky-400 font-medium">Handle: {codeforces.handle}</span>
                   </div>
                 </div>
-                <div className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-300">
+                <div className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
                   {codeforces.rank || 'Specialist'}
                 </div>
               </div>
@@ -154,20 +153,20 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
               {/* Rating Stats Numbers */}
               <div className="grid grid-cols-3 gap-3 mb-6">
                 <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <span className="text-[10px] font-mono text-gray-400 uppercase">Current Rating</span>
-                  <div className="text-xl font-mono font-bold text-cyan-300 mt-0.5">
+                  <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Current Rating</span>
+                  <div className="text-xl font-bold text-cyan-300 mt-0.5">
                     {codeforces.rating || 1450}
                   </div>
                 </div>
                 <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <span className="text-[10px] font-mono text-gray-400 uppercase">Max Rating</span>
-                  <div className="text-xl font-mono font-bold text-violet-300 mt-0.5">
+                  <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Max Rating</span>
+                  <div className="text-xl font-bold text-violet-300 mt-0.5">
                     {codeforces.maxRating || 1520}
                   </div>
                 </div>
                 <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <span className="text-[10px] font-mono text-gray-400 uppercase">Problems Solved</span>
-                  <div className="text-xl font-mono font-bold text-pink-400 mt-0.5">
+                  <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Problems Solved</span>
+                  <div className="text-xl font-bold text-pink-400 mt-0.5">
                     {codeforces.totalSolved || 480}+
                   </div>
                 </div>
@@ -175,26 +174,23 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
 
               {/* Contest Rating Sparkline Chart */}
               <div className="p-4 rounded-xl bg-black/40 border border-white/5">
-                <div className="flex items-center justify-between text-xs font-mono text-gray-400 mb-2">
+                <div className="flex items-center justify-between text-xs font-medium text-gray-400 mb-2">
                   <span>Rating Progression Chart</span>
                   <span className="text-emerald-400">Peak: {codeforces.maxRating || 1520}</span>
                 </div>
 
                 <div className="w-full overflow-hidden">
                   <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-28 overflow-visible">
-                    {/* Gradient Fill */}
                     <defs>
                       <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
                         <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
                       </linearGradient>
                     </defs>
-                    {/* Grid lines */}
                     <line x1="0" y1="20" x2={chartWidth} y2="20" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
                     <line x1="0" y1="60" x2={chartWidth} y2="60" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
                     <line x1="0" y1="100" x2={chartWidth} y2="100" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
 
-                    {/* Area under curve */}
                     {pathD && (
                       <path
                         d={`${pathD} L ${points[points.length - 1].x} ${chartHeight} L ${points[0].x} ${chartHeight} Z`}
@@ -202,7 +198,6 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
                       />
                     )}
 
-                    {/* Polyline */}
                     {pathD && (
                       <path
                         d={pathD}
@@ -214,7 +209,6 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
                       />
                     )}
 
-                    {/* Data Points */}
                     {points.map((p: { x: number; y: number; rating: number }, idx: number) => (
                       <g key={idx}>
                         <circle cx={p.x} cy={p.y} r="4" fill="#38bdf8" stroke="#09090e" strokeWidth="2" />
@@ -224,7 +218,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
                           textAnchor="middle"
                           fill="#a5f3fc"
                           fontSize="9"
-                          fontFamily="monospace"
+                          fontWeight="bold"
                         >
                           {p.rating}
                         </text>
@@ -236,7 +230,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
             </div>
           </div>
 
-          {/* LeetCode Terminal Card (5 cols) */}
+          {/* LeetCode Card */}
           <div className="lg:col-span-5 terminal-frame p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
@@ -246,10 +240,10 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
                   </div>
                   <div>
                     <h3 className="font-display text-lg font-bold text-white">LeetCode Profile</h3>
-                    <span className="text-xs font-mono text-amber-400">Handle: {leetcode.handle}</span>
+                    <span className="text-xs text-amber-400 font-medium">Handle: {leetcode.handle}</span>
                   </div>
                 </div>
-                <div className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-mono text-amber-300">
+                <div className="text-xs font-bold text-amber-300 uppercase tracking-wider">
                   {leetcode.rank || 'Knight'}
                 </div>
               </div>
@@ -257,12 +251,12 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
               {/* Total Solved Header */}
               <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 mb-6 flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] font-mono text-gray-400 uppercase">Total Solved</span>
-                  <div className="text-3xl font-mono font-bold text-white mt-0.5">
+                  <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Total Solved</span>
+                  <div className="text-3xl font-bold text-white mt-0.5">
                     {totalLC}
                   </div>
                 </div>
-                <div className="text-right font-mono text-xs text-amber-400">
+                <div className="text-right text-xs font-semibold text-amber-400">
                   Rating: {leetcode.rating || 1780}
                 </div>
               </div>
@@ -271,7 +265,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
               <div className="space-y-4">
                 {/* Easy */}
                 <div>
-                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                  <div className="flex items-center justify-between text-xs font-medium mb-1">
                     <span className="text-emerald-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Easy
                     </span>
@@ -287,7 +281,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
 
                 {/* Medium */}
                 <div>
-                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                  <div className="flex items-center justify-between text-xs font-medium mb-1">
                     <span className="text-amber-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Medium
                     </span>
@@ -303,7 +297,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
 
                 {/* Hard */}
                 <div>
-                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                  <div className="flex items-center justify-between text-xs font-medium mb-1">
                     <span className="text-rose-400 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Hard
                     </span>

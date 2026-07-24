@@ -16,12 +16,11 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
         {/* Asymmetric Header Layout */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-pink-400 tracking-wider uppercase mb-2">
-              <Terminal className="w-3.5 h-3.5" />
-              <span>// ABOUT_ENGINEER</span>
+            <div className="text-xs font-semibold text-pink-400 tracking-wider uppercase mb-2">
+              Engineering Background
             </div>
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
-              Engineering Background & Passions
+              Background & Philosophy
             </h2>
           </div>
           <p className="text-gray-400 text-sm max-w-md">
@@ -110,7 +109,7 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
             </div>
 
             <div className="mt-6 p-3 rounded-lg bg-white/[0.02] border border-white/5 text-center">
-              <span className="text-xs font-mono text-violet-300">
+              <span className="text-xs text-violet-300 font-medium italic">
                 &ldquo;Obsessed with detail, driven by curiosity.&rdquo;
               </span>
             </div>

@@ -44,9 +44,8 @@ export default function ContactSection({ contact }: ContactSectionProps) {
         {/* Asymmetric Header Layout */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-pink-400 tracking-wider uppercase mb-2">
-              <Mail className="w-3.5 h-3.5" />
-              <span>// GET_IN_TOUCH</span>
+            <div className="text-xs font-semibold text-pink-400 tracking-widest uppercase mb-2">
+              Get In Touch
             </div>
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
               Let&apos;s Build Together
@@ -75,7 +74,7 @@ export default function ContactSection({ contact }: ContactSectionProps) {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-400 font-mono uppercase">Email</span>
+                  <span className="text-[10px] text-gray-400 uppercase font-medium tracking-wider">Email</span>
                   <p className="text-white font-display font-semibold text-sm">{email}</p>
                 </div>
               </div>
@@ -99,7 +98,7 @@ export default function ContactSection({ contact }: ContactSectionProps) {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-gray-400 font-mono uppercase">Phone</span>
+                  <span className="text-[10px] text-gray-400 uppercase font-medium tracking-wider">Phone</span>
                   <p className="text-white font-display font-semibold text-sm">{phone}</p>
                 </div>
               </div>
@@ -124,7 +123,7 @@ export default function ContactSection({ contact }: ContactSectionProps) {
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-mono uppercase">WhatsApp</span>
+                    <span className="text-[10px] text-gray-400 uppercase font-medium tracking-wider">WhatsApp</span>
                     <p className="text-white font-display font-semibold text-sm">{whatsapp}</p>
                   </div>
                 </div>
@@ -166,7 +165,7 @@ export default function ContactSection({ contact }: ContactSectionProps) {
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-mono text-gray-400 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
                       Your Name
                     </label>
                     <input
@@ -180,7 +179,7 @@ export default function ContactSection({ contact }: ContactSectionProps) {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-mono text-gray-400 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
                       Your Email
                     </label>
                     <input
@@ -195,7 +194,7 @@ export default function ContactSection({ contact }: ContactSectionProps) {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono text-gray-400 uppercase mb-1.5">
+                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
                     Message Body
                   </label>
                   <textarea

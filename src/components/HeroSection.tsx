@@ -46,10 +46,8 @@ export default function HeroSection({ profile, socialLinks }: HeroSectionProps) 
 
   return (
     <section id="hero" className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
-      {/* Isolated background spotlight glow */}
-      <div className="spotlight-glow top-10 left-1/4" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
         {/* Hero Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
@@ -60,8 +58,8 @@ export default function HeroSection({ profile, socialLinks }: HeroSectionProps) 
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 flex flex-col gap-6"
           >
-            {/* Availability Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 self-start text-xs font-mono text-gray-300">
+            {/* Availability Status */}
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 tracking-wider uppercase">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Available for engineering roles</span>
             </div>
@@ -81,7 +79,7 @@ export default function HeroSection({ profile, socialLinks }: HeroSectionProps) 
               Building ultra-fast Next.js applications, robust distributed backend APIs, and visually stunning digital products engineered for scalability.
             </p>
 
-            {/* Actions: Primary CTA gradient button reserved here */}
+            {/* Actions */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 onClick={handleResumeClick}
@@ -115,7 +113,7 @@ export default function HeroSection({ profile, socialLinks }: HeroSectionProps) 
 
             {/* Social Links */}
             <div className="pt-4 flex flex-col gap-2">
-              <span className="text-xs font-mono uppercase text-gray-500 tracking-wider">
+              <span className="text-xs font-semibold uppercase text-gray-500 tracking-wider">
                 Connect
               </span>
               <div className="flex items-center gap-2.5">
@@ -160,11 +158,10 @@ export default function HeroSection({ profile, socialLinks }: HeroSectionProps) 
           <div className="flex items-center justify-between mb-3 px-2">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-pink-500" />
-              <span className="text-xs font-mono text-gray-400 uppercase tracking-wider">
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Interactive 3D Viewport
               </span>
             </div>
-            <span className="text-xs text-gray-500 font-mono">Drag / Scroll to Interact</span>
           </div>
           <SplineHero />
         </motion.div>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FolderGit2, ExternalLink, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, ArrowUpRight } from 'lucide-react';
 import { GithubIcon } from './BrandIcons';
 import ProjectModal, { ProjectItem } from './ProjectModal';
 
@@ -21,9 +21,8 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
         {/* Asymmetric Header Layout */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-violet-400 tracking-wider uppercase mb-2">
-              <FolderGit2 className="w-3.5 h-3.5" />
-              <span>// FEATURED_PORTFOLIO</span>
+            <div className="text-xs font-semibold text-violet-400 tracking-widest uppercase mb-2">
+              Featured Portfolio
             </div>
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
               Selected Software Projects
@@ -57,18 +56,18 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-black/20 to-transparent" />
                   
-                  {/* Tech stack badge overlay */}
+                  {/* Tech stack badges overlay */}
                   <div className="absolute top-4 left-4 flex flex-wrap gap-1.5 max-w-[85%]">
                     {project.techStack.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
-                        className="px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] font-semibold text-gray-200"
+                        className="px-2.5 py-0.5 rounded-md bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] font-semibold text-gray-200"
                       >
                         {tech}
                       </span>
                     ))}
                     {project.techStack.length > 3 && (
-                      <span className="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] font-semibold text-pink-300">
+                      <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-sm border border-white/10 text-[10px] font-semibold text-pink-300">
                         +{project.techStack.length - 3}
                       </span>
                     )}

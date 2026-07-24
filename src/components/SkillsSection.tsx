@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { getTechIcon } from '@/components/TechIcons';
 
 export interface SkillItem {
@@ -66,22 +66,11 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
 
   return (
     <section id="skills" className="py-24 relative overflow-hidden bg-[#05030a] border-t border-white/5">
-      {/* Background Ambient Atmosphere & Grid */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-purple-900/15 via-violet-600/10 to-pink-900/10 rounded-full blur-[130px]" />
-        <div 
-          className="absolute inset-0 opacity-[0.1]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-            backgroundSize: '36px 36px'
-          }}
-        />
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Top Header & Futuristic Chrome Sculpture (Demo 3 Inspired) */}
+        {/* Top Header */}
         <div className="flex flex-col items-center text-center mb-12">
+          {/* Futuristic 3D Floating Sculpture Graphic (Demo 3 Inspired) */}
           <div className="relative mb-6 group cursor-pointer">
             <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-400 blur-lg opacity-40 group-hover:opacity-75 transition duration-500" />
             <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#0c0817] border border-purple-500/30 flex items-center justify-center shadow-2xl backdrop-blur-xl">
@@ -104,13 +93,12 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-xs font-mono text-violet-300 tracking-widest uppercase mb-4 shadow-sm">
-            <Terminal className="w-3.5 h-3.5 text-violet-400" />
-            <span>MY SKILLS</span>
+          <div className="text-xs font-semibold text-violet-400 tracking-widest uppercase mb-2">
+            My Skills & Ecosystem
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-display mb-4">
-            My Core <span className="bg-gradient-to-r from-violet-400 via-fuchsia-300 to-cyan-400 bg-clip-text text-transparent">Abilities</span>
+            My Core Abilities
           </h2>
 
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl leading-relaxed">
