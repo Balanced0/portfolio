@@ -261,3 +261,33 @@ body {
   height: 0.625rem;
   border-radius: 50%;
 }
+
+/* -----------------------------------------------------------------------
+   Tech Card Spotlight & Glass Keycap Styling
+----------------------------------------------------------------------- */
+.tech-card-spotlight {
+  position: relative;
+  contain: layout style;
+  will-change: transform;
+}
+
+.tech-card-spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(168, 85, 247, 0.2),
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tech-card-spotlight:hover::before {
+  opacity: 1;
+}
+
