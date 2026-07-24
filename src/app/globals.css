@@ -291,3 +291,91 @@ body {
   opacity: 1;
 }
 
+/* -----------------------------------------------------------------------
+   Pure CSS Infinite Marquee Keyframes (Zero JS per-frame cost)
+----------------------------------------------------------------------- */
+@keyframes marqueeScrollLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marqueeScrollRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marqueeScrollLeft 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marqueeScrollRight 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+/* -----------------------------------------------------------------------
+   Distinctive Angular Glass Tech Frame (Beveled Chamfered Corners)
+----------------------------------------------------------------------- */
+.tech-icon-frame-outer {
+  position: relative;
+  padding: 1.5px;
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px),
+    0 14px
+  );
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.15), rgba(56, 189, 248, 0.25));
+  transition: background 0.35s ease, transform 0.3s ease, box-shadow 0.35s ease;
+}
+
+.tech-icon-frame-outer:hover {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899, #38bdf8);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+}
+
+.tech-icon-frame-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(
+    13px 0,
+    calc(100% - 13px) 0,
+    100% 13px,
+    100% calc(100% - 13px),
+    calc(100% - 13px) 100%,
+    13px 100%,
+    0 calc(100% - 13px),
+    0 13px
+  );
+  background: #0b0717;
+  transition: background 0.3s ease;
+}
+
+.tech-icon-frame-outer:hover .tech-icon-frame-inner {
+  background: #110b24;
+}
+
+

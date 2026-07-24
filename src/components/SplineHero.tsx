@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { Loader2, Bot } from 'lucide-react';
 
-// Use the client-safe build — NOT the /next variant (which is an async Server Component)
 const Spline = dynamic(() => import('@splinetool/react-spline'), {
   ssr: false,
   loading: () => <SplineLoadingSkeleton />,
@@ -29,14 +28,36 @@ function SplineLoadingSkeleton() {
 
 export default function SplineHero() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.01 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="relative w-full h-[450px] sm:h-[520px] lg:h-[600px] rounded-3xl overflow-hidden glass-card p-1 shadow-2xl">
+    <div
+      ref={containerRef}
+      className="relative w-full h-[450px] sm:h-[520px] lg:h-[600px] rounded-3xl overflow-hidden glass-card p-1 shadow-2xl"
+    >
       {!isLoaded && <SplineLoadingSkeleton />}
+      {/* Hide WebGL canvas completely when off-screen to stop WebGL GPU frame loops */}
       <div
-        className={`w-full h-full transition-opacity duration-700 ${
-          isLoaded ? 'opacity-100' : 'opacity-0 absolute inset-0'
+        className={`w-full h-full transition-opacity duration-500 ${
+          isLoaded && isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
+        style={{ display: isVisible ? 'block' : 'none' }}
       >
         <Spline
           scene="https://prod.spline.design/moQplg4AUXTYbopq/scene.splinecode"
