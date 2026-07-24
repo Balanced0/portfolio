@@ -149,7 +149,6 @@ export default function ContactSection({ contact }: ContactSectionProps) {
             className="lg:col-span-7 solid-card p-8"
           >
             <h3 className="font-display text-xl font-bold text-white mb-6 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-pink-400" />
               <span>Send A Direct Message</span>
             </h3>
 
