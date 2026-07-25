@@ -29,7 +29,27 @@ export default function AdminDashboardPage() {
 
   // Entities state
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [profile, setProfile] = useState<any>({ name: '', designation: '', aboutText: '', hobbies: [], photoUrl: '', resumeUrl: '' });
+  const [profile, setProfile] = useState<any>({
+    name: '',
+    designation: '',
+    aboutText: '',
+    hobbies: [],
+    photoUrl: '',
+    resumeUrl: '',
+    aboutTitle: '',
+    aboutSubtitle: '',
+    aboutNarrativeTitle: '',
+    aboutText2: '',
+    highlight1Title: '',
+    highlight1Label: '',
+    highlight2Title: '',
+    highlight2Label: '',
+    highlight3Title: '',
+    highlight3Label: '',
+    hobbiesTitle: '',
+    ethosQuote: '',
+    ethosSubtitle: '',
+  });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [skills, setSkills] = useState<any[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -276,9 +296,177 @@ export default function AdminDashboardPage() {
                   />
                 </div>
               </div>
+
+              {/* Engineering Background Section */}
+              <h3 className="font-display text-base font-bold text-violet-400 mt-4 border-t border-white/5 pt-4">Engineering Background Section</h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Section Subtitle</label>
+                  <input
+                    type="text"
+                    value={profile.aboutTitle || ''}
+                    onChange={(e) => setProfile({ ...profile, aboutTitle: e.target.value })}
+                    className="w-full px-4 py-2.5 glass-input text-sm"
+                    placeholder="Engineering Background"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Section Main Title</label>
+                  <input
+                    type="text"
+                    value={profile.aboutSubtitle || ''}
+                    onChange={(e) => setProfile({ ...profile, aboutSubtitle: e.target.value })}
+                    className="w-full px-4 py-2.5 glass-input text-sm"
+                    placeholder="Background & Philosophy"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Narrative Heading</label>
+                  <input
+                    type="text"
+                    value={profile.aboutNarrativeTitle || ''}
+                    onChange={(e) => setProfile({ ...profile, aboutNarrativeTitle: e.target.value })}
+                    className="w-full px-4 py-2.5 glass-input text-sm"
+                    placeholder="My Journey & Philosophy"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-400 mb-1">Narrative Paragraph 2</label>
+                <textarea
+                  rows={3}
+                  value={profile.aboutText2 || ''}
+                  onChange={(e) => setProfile({ ...profile, aboutText2: e.target.value })}
+                  className="w-full px-4 py-2.5 glass-input text-sm resize-none"
+                  placeholder="I specialize in modern JavaScript/TypeScript ecosystems..."
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5 flex flex-col gap-2">
+                  <span className="text-xs font-bold text-pink-400">Highlight 1</span>
+                  <div>
+                    <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Value/Title</label>
+                    <input
+                      type="text"
+                      value={profile.highlight1Title || ''}
+                      onChange={(e) => setProfile({ ...profile, highlight1Title: e.target.value })}
+                      className="w-full px-3 py-2 glass-input text-xs"
+                      placeholder="Architected"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Label</label>
+                    <input
+                      type="text"
+                      value={profile.highlight1Label || ''}
+                      onChange={(e) => setProfile({ ...profile, highlight1Label: e.target.value })}
+                      className="w-full px-3 py-2 glass-input text-xs"
+                      placeholder="Clean System Design"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5 flex flex-col gap-2">
+                  <span className="text-xs font-bold text-pink-400">Highlight 2</span>
+                  <div>
+                    <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Value/Title</label>
+                    <input
+                      type="text"
+                      value={profile.highlight2Title || ''}
+                      onChange={(e) => setProfile({ ...profile, highlight2Title: e.target.value })}
+                      className="w-full px-3 py-2 glass-input text-xs"
+                      placeholder="60 FPS"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Label</label>
+                    <input
+                      type="text"
+                      value={profile.highlight2Label || ''}
+                      onChange={(e) => setProfile({ ...profile, highlight2Label: e.target.value })}
+                      className="w-full px-3 py-2 glass-input text-xs"
+                      placeholder="Fluid Micro-Motion"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5 flex flex-col gap-2">
+                  <span className="text-xs font-bold text-pink-400">Highlight 3</span>
+                  <div>
+                    <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Value/Title</label>
+                    <input
+                      type="text"
+                      value={profile.highlight3Title || ''}
+                      onChange={(e) => setProfile({ ...profile, highlight3Title: e.target.value })}
+                      className="w-full px-3 py-2 glass-input text-xs"
+                      placeholder="< 50 ms"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] text-gray-400 uppercase font-semibold mb-1">Label</label>
+                    <input
+                      type="text"
+                      value={profile.highlight3Label || ''}
+                      onChange={(e) => setProfile({ ...profile, highlight3Label: e.target.value })}
+                      className="w-full px-3 py-2 glass-input text-xs"
+                      placeholder="Target Response Latency"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Passions Section Heading</label>
+                  <input
+                    type="text"
+                    value={profile.hobbiesTitle || ''}
+                    onChange={(e) => setProfile({ ...profile, hobbiesTitle: e.target.value })}
+                    className="w-full px-4 py-2.5 glass-input text-sm"
+                    placeholder="Passions & Interests"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Hobbies (comma-separated)</label>
+                  <input
+                    type="text"
+                    value={Array.isArray(profile.hobbies) ? profile.hobbies.join(', ') : profile.hobbies || ''}
+                    onChange={(e) => setProfile({ ...profile, hobbies: e.target.value.split(',').map((s: string) => s.trim()) })}
+                    className="w-full px-4 py-2.5 glass-input text-sm"
+                    placeholder="Competitive Programming, Open Source Contributing"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Ethos Quote</label>
+                  <input
+                    type="text"
+                    value={profile.ethosQuote || ''}
+                    onChange={(e) => setProfile({ ...profile, ethosQuote: e.target.value })}
+                    className="w-full px-4 py-2.5 glass-input text-sm"
+                    placeholder="Obsessed with detail, driven by curiosity."
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Ethos Subtitle / Author</label>
+                  <input
+                    type="text"
+                    value={profile.ethosSubtitle || ''}
+                    onChange={(e) => setProfile({ ...profile, ethosSubtitle: e.target.value })}
+                    className="w-full px-4 py-2.5 glass-input text-sm"
+                    placeholder="Engineering Ethos"
+                  />
+                </div>
+              </div>
+
               <button
                 onClick={saveProfile}
-                className="gradient-pill-btn self-start text-xs font-semibold py-3 px-6 flex items-center gap-2"
+                className="gradient-pill-btn self-start text-xs font-semibold py-3 px-6 flex items-center gap-2 mt-4"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Profile Changes</span>

@@ -153,14 +153,14 @@ export async function GET(req: NextRequest) {
         if (cfStat) {
           await CodingStat.findOneAndUpdate({ platform: 'codeforces' }, cfStat, {
             upsert: true,
-            new: true,
+            returnDocument: 'after',
           });
         }
 
         if (lcStat) {
           await CodingStat.findOneAndUpdate({ platform: 'leetcode' }, lcStat, {
             upsert: true,
-            new: true,
+            returnDocument: 'after',
           });
         }
 

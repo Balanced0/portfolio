@@ -208,13 +208,13 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
           </p>
 
           {/* Profile links */}
-          <div className="flex items-center gap-3 mt-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-5 w-full sm:w-auto">
             <a
               id="coding-stats-cf-link"
               href={`https://codeforces.com/profile/${codeforces.handle}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="ghost-btn py-1.5 px-4 text-xs gap-1.5"
+              className="ghost-btn py-1.5 px-4 text-xs gap-1.5 w-full sm:w-auto justify-center"
             >
               <CodeforcesIcon className="w-3.5 h-3.5" />
               codeforces/{codeforces.handle}
@@ -225,7 +225,7 @@ export default function CodingStatsSection({ stats }: CodingStatsSectionProps) {
               href={`https://leetcode.com/u/${leetcode.handle}/`}
               target="_blank"
               rel="noopener noreferrer"
-              className="ghost-btn py-1.5 px-4 text-xs gap-1.5"
+              className="ghost-btn py-1.5 px-4 text-xs gap-1.5 w-full sm:w-auto justify-center"
             >
               <LeetCodeIcon className="w-3.5 h-3.5" />
               leetcode/{leetcode.handle}

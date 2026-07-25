@@ -26,7 +26,7 @@ export default async function Home() {
       <Navbar />
       <main className="flex-1">
         <HeroSection profile={profile} socialLinks={data.socialLinks || []} />
-        <AboutSection aboutText={profile.aboutText} hobbies={profile.hobbies || []} />
+        <AboutSection profile={profile} />
         <SkillsSection skills={data.skills || []} />
         <EducationTimeline education={data.education || []} />
         <ExperienceTimeline experience={data.experience || []} />

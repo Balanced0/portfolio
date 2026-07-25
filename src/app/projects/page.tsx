@@ -12,9 +12,9 @@ import type { ProjectItem } from '@/components/ProjectsSection';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'All Projects | Alvi Hasan — Full-Stack Engineer',
+  title: 'All Projects | Alvi Chowdhury — Full-Stack Engineer',
   description:
-    'Browse every software project built by Alvi Hasan — real-time engines, fintech dashboards, geospatial marketplaces, and more.',
+    'Browse every software project built by Alvi Chowdhury — real-time engines, fintech dashboards, geospatial marketplaces, and more.',
 };
 
 export default async function AllProjectsPage() {

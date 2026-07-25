@@ -87,7 +87,7 @@ export async function POST(
     if (entity === 'profile' || entity === 'contact') {
       const updated = await Model.findOneAndUpdate({}, body, {
         upsert: true,
-        new: true,
+        returnDocument: 'after',
       });
       return NextResponse.json({ data: updated });
     }
@@ -124,7 +124,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Document ID required for PUT' }, { status: 400 });
     }
 
-    const updated = await Model.findByIdAndUpdate(_id, updateData, { new: true });
+    const updated = await Model.findByIdAndUpdate(_id, updateData, { returnDocument: 'after' });
     return NextResponse.json({ data: updated });
   } catch (error) {
     console.error(`Admin PUT error for ${entity}:`, error);

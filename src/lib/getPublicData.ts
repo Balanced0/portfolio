@@ -163,13 +163,13 @@ async function getOrRefreshCodingStats() {
       if (cfStat) {
         await CodingStat.findOneAndUpdate({ platform: 'codeforces' }, cfStat, {
           upsert: true,
-          new: true,
+          returnDocument: 'after',
         });
       }
       if (lcStat) {
         await CodingStat.findOneAndUpdate({ platform: 'leetcode' }, lcStat, {
           upsert: true,
-          new: true,
+          returnDocument: 'after',
         });
       }
 
@@ -197,8 +197,11 @@ export async function fetchAllProjects() {
 
     let projects = await Project.find().sort({ order: 1, createdAt: -1 }).lean();
     if (projects.length === 0) {
-      await Project.insertMany(DEFAULT_PROJECTS);
-      projects = await Project.find().sort({ order: 1, createdAt: -1 }).lean();
+      const profileDoc = await Profile.findOne().lean();
+      if (!profileDoc) {
+        await Project.insertMany(DEFAULT_PROJECTS);
+        projects = await Project.find().sort({ order: 1, createdAt: -1 }).lean();
+      }
     }
     return JSON.parse(JSON.stringify(projects));
   } catch (err) {
@@ -224,43 +227,48 @@ export async function fetchPublicPortfolioData() {
       };
     }
 
-    let profile = await Profile.findOne().lean();
-    if (!profile) {
+    const profileDoc = await Profile.findOne().lean();
+    const isNewDb = !profileDoc;
+    let profile;
+    if (isNewDb) {
       profile = JSON.parse(JSON.stringify((await Profile.create(DEFAULT_PROFILE)).toObject()));
     } else {
-      profile = JSON.parse(JSON.stringify(profile));
+      profile = {
+        ...DEFAULT_PROFILE,
+        ...JSON.parse(JSON.stringify(profileDoc))
+      };
     }
 
     let skills = await Skill.find().sort({ order: 1, createdAt: 1 }).lean();
-    if (skills.length === 0) {
+    if (skills.length === 0 && isNewDb) {
       await Skill.insertMany(DEFAULT_SKILLS);
       skills = await Skill.find().sort({ order: 1, createdAt: 1 }).lean();
     }
     skills = JSON.parse(JSON.stringify(skills));
 
     let education = await Education.find().sort({ order: 1, createdAt: -1 }).lean();
-    if (education.length === 0) {
+    if (education.length === 0 && isNewDb) {
       await Education.insertMany(DEFAULT_EDUCATION);
       education = await Education.find().sort({ order: 1, createdAt: -1 }).lean();
     }
     education = JSON.parse(JSON.stringify(education));
 
     let experience = await Experience.find().sort({ order: 1, createdAt: -1 }).lean();
-    if (experience.length === 0) {
+    if (experience.length === 0 && isNewDb) {
       await Experience.insertMany(DEFAULT_EXPERIENCE);
       experience = await Experience.find().sort({ order: 1, createdAt: -1 }).lean();
     }
     experience = JSON.parse(JSON.stringify(experience));
 
     let projects = await Project.find().sort({ order: 1, createdAt: -1 }).lean();
-    if (projects.length === 0) {
+    if (projects.length === 0 && isNewDb) {
       await Project.insertMany(DEFAULT_PROJECTS);
       projects = await Project.find().sort({ order: 1, createdAt: -1 }).lean();
     }
     projects = JSON.parse(JSON.stringify(projects));
 
     let socialLinks = await SocialLink.find().sort({ order: 1 }).lean();
-    if (socialLinks.length === 0) {
+    if (socialLinks.length === 0 && isNewDb) {
       await SocialLink.insertMany(DEFAULT_SOCIALS);
       socialLinks = await SocialLink.find().sort({ order: 1 }).lean();
     }

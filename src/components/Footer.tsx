@@ -22,10 +22,8 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="text-xs text-gray-400 font-sans flex items-center gap-1.5">
-          <span>&copy; {new Date().getFullYear()} Alvi Hasan. Engineered with</span>
-          <Heart className="w-3.5 h-3.5 text-pink-500 fill-pink-500" />
-          <span>using Next.js 16 & Tailwind CSS.</span>
+        <div className="text-xs text-gray-400 font-sans">
+          <span>&copy; 2026 MD. Alvi Chowdhury. All rights reserved.</span>
         </div>
 
         {/* Back to top button */}

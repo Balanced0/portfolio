@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug?: st
   const slug = resolvedParams?.slug || '';
   const project = await getProjectBySlug(slug);
   return {
-    title: project?.name ? `${project.name} | Alvi Hasan` : 'Project Detail | Alvi Hasan',
+    title: project?.name ? `${project.name} | Alvi Chowdhury` : 'Project Detail | Alvi Chowdhury',
     description: project?.teaser || 'Project details',
   };
 }

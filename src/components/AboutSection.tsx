@@ -3,8 +3,23 @@
 import { motion } from 'framer-motion';
 
 interface AboutSectionProps {
-  aboutText: string;
-  hobbies: string[];
+  profile: {
+    aboutText: string;
+    hobbies: string[];
+    aboutTitle?: string;
+    aboutSubtitle?: string;
+    aboutNarrativeTitle?: string;
+    aboutText2?: string;
+    highlight1Title?: string;
+    highlight1Label?: string;
+    highlight2Title?: string;
+    highlight2Label?: string;
+    highlight3Title?: string;
+    highlight3Label?: string;
+    hobbiesTitle?: string;
+    ethosQuote?: string;
+    ethosSubtitle?: string;
+  };
 }
 
 // Assigns each hobby a float animation class in a cycle
@@ -36,9 +51,27 @@ const NODE_DOT_COLORS = [
   'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)]',
 ];
 
-const QUOTE_WORDS = ['Obsessed', 'with', 'detail,', 'driven', 'by', 'curiosity.'];
+export default function AboutSection({ profile }: AboutSectionProps) {
+  const {
+    aboutText,
+    hobbies,
+    aboutTitle = 'Engineering Background',
+    aboutSubtitle = 'Background & Philosophy',
+    aboutNarrativeTitle = 'My Journey & Philosophy',
+    aboutText2 = 'I specialize in modern JavaScript/TypeScript ecosystems — building resilient web apps with Next.js App Router, scaling backend services with Node.js and MongoDB, and designing smooth 60fps user interactions using Framer Motion and WebGL.',
+    highlight1Title = 'Architected',
+    highlight1Label = 'Clean System Design',
+    highlight2Title = '60 FPS',
+    highlight2Label = 'Fluid Micro-Motion',
+    highlight3Title = '< 50 ms',
+    highlight3Label = 'Target Response Latency',
+    hobbiesTitle = 'Passions & Interests',
+    ethosQuote = 'Obsessed with detail, driven by curiosity.',
+    ethosSubtitle = 'Engineering Ethos',
+  } = profile;
 
-export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) {
+  const quoteWords = ethosQuote ? ethosQuote.split(/\s+/) : ['Obsessed', 'with', 'detail,', 'driven', 'by', 'curiosity.'];
+
   return (
     <section id="about" className="py-24 relative overflow-hidden border-t border-white/5">
       {/* Ambient glow */}
@@ -55,10 +88,10 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
           className="mb-14"
         >
           <div className="text-xs font-semibold text-pink-400 tracking-widest uppercase mb-2">
-            Engineering Background
+            {aboutTitle}
           </div>
           <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
-            Background &amp; Philosophy
+            {aboutSubtitle}
           </h2>
         </motion.div>
 
@@ -76,7 +109,7 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
             <div>
               <h3 className="font-display text-xl font-bold text-white mb-5 flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
-                <span>My Journey &amp; Philosophy</span>
+                <span>{aboutNarrativeTitle}</span>
               </h3>
 
               <div className="prose prose-invert max-w-none text-gray-300 text-base leading-relaxed space-y-4 font-sans">
@@ -84,11 +117,7 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
                   {aboutText ||
                     'My passion for software began with a fascination for how code turns abstract ideas into living, reactive digital tools. Over the years, I have evolved into a full-stack engineer driven by speed, architectural purity, and pixel perfection.'}
                 </p>
-                <p>
-                  I specialize in modern JavaScript/TypeScript ecosystems — building resilient web apps
-                  with Next.js App Router, scaling backend services with Node.js and MongoDB, and
-                  designing smooth 60fps user interactions using Framer Motion and WebGL.
-                </p>
+                {aboutText2 && <p>{aboutText2}</p>}
               </div>
             </div>
 
@@ -96,26 +125,26 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
             <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="flex flex-col gap-0.5 group">
                 <span className="font-display font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-purple-300">
-                  Architected
+                  {highlight1Title}
                 </span>
                 <span className="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">
-                  Clean System Design
+                  {highlight1Label}
                 </span>
               </div>
               <div className="flex flex-col gap-0.5 group">
                 <span className="font-display font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-300">
-                  60 FPS
+                  {highlight2Title}
                 </span>
                 <span className="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">
-                  Fluid Micro-Motion
+                  {highlight2Label}
                 </span>
               </div>
               <div className="flex flex-col gap-0.5 group">
                 <span className="font-display font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
-                  &lt; 50 ms
+                  {highlight3Title}
                 </span>
                 <span className="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">
-                  Target Response Latency
+                  {highlight3Label}
                 </span>
               </div>
             </div>
@@ -131,7 +160,7 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
           >
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-6 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-pink-400 animate-ping" />
-              Passions &amp; Interests
+              {hobbiesTitle}
             </p>
 
             {/* Organic node constellation cloud */}
@@ -169,9 +198,9 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
         <div className="py-4 border-t border-white/5">
           <div
             className="flex flex-wrap gap-x-4 gap-y-2 justify-center items-baseline"
-            aria-label="Obsessed with detail, driven by curiosity."
+            aria-label={ethosQuote}
           >
-            {QUOTE_WORDS.map((word, i) => (
+            {quoteWords.map((word, i) => (
               <motion.span
                 key={i}
                 initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
@@ -192,10 +221,10 @@ export default function AboutSection({ aboutText, hobbies }: AboutSectionProps) 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: QUOTE_WORDS.length * 0.1 + 0.2 }}
+            transition={{ duration: 0.6, delay: quoteWords.length * 0.1 + 0.2 }}
             className="text-center text-xs text-gray-500 mt-4 font-sans tracking-widest uppercase"
           >
-            — Engineering Ethos
+            — {ethosSubtitle}
           </motion.p>
         </div>
 

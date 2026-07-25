@@ -15,9 +15,9 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Alvi Hasan | Full-Stack Engineer & Systems Architect',
+  title: 'Alvi Chowdhury | Full-Stack Engineer & Systems Architect',
   description:
-    'Production portfolio of Alvi Hasan — Full-Stack Engineer specializing in high-performance Web applications, Next.js 16, Distributed Systems, and Competitive Programming.',
+    'Production portfolio of Alvi Chowdhury — Full-Stack Engineer specializing in high-performance Web applications, Next.js 16, Distributed Systems, and Competitive Programming.',
   keywords: [
     'Full-Stack Developer',
     'Next.js',
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     'LeetCode',
     'Software Engineer',
   ],
-  authors: [{ name: 'Alvi Hasan' }],
+  authors: [{ name: 'Alvi Chowdhury' }],
   openGraph: {
-    title: 'Alvi Hasan | Full-Stack Engineer',
+    title: 'Alvi Chowdhury | Full-Stack Engineer',
     description:
       'Explore projects, interactive 3D demos, competitive programming stats, and engineering experience.',
     type: 'website',

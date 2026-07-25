@@ -1,5 +1,5 @@
 export const DEFAULT_PROFILE = {
-  name: "Alvi Hasan",
+  name: "Alvi Chowdhury",
   designation: "Full-Stack Engineer & Systems Architect",
   aboutText: "I am a passionate Full-Stack Engineer specializing in high-performance web systems, reactive architectures, and intuitive modern interfaces. Over the years, I have built scalable microservices, real-time applications, and rich interactive web experiences using Next.js, React, Node.js, and TypeScript. I love tackling algorithmic challenges, refining UI animations down to sub-pixel perfection, and architecting robust cloud backends.",
   hobbies: [
@@ -10,7 +10,20 @@ export const DEFAULT_PROFILE = {
     "Tech Blogging & Mentoring"
   ],
   photoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
-  resumeUrl: "#"
+  resumeUrl: "#",
+  aboutTitle: "Engineering Background",
+  aboutSubtitle: "Background & Philosophy",
+  aboutNarrativeTitle: "My Journey & Philosophy",
+  aboutText2: "I specialize in modern JavaScript/TypeScript ecosystems — building resilient web apps with Next.js App Router, scaling backend services with Node.js and MongoDB, and designing smooth 60fps user interactions using Framer Motion and WebGL.",
+  highlight1Title: "Architected",
+  highlight1Label: "Clean System Design",
+  highlight2Title: "60 FPS",
+  highlight2Label: "Fluid Micro-Motion",
+  highlight3Title: "< 50 ms",
+  highlight3Label: "Target Response Latency",
+  hobbiesTitle: "Passions & Interests",
+  ethosQuote: "Obsessed with detail, driven by curiosity.",
+  ethosSubtitle: "Engineering Ethos"
 };
 
 export const DEFAULT_SKILLS = [
